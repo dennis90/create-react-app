@@ -39,6 +39,8 @@ const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 const postcssNormalize = require('postcss-normalize');
 
+const BundleTracker = require('webpack-bundle-tracker');
+
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -118,6 +120,10 @@ module.exports = function(webpackEnv) {
             // so that it honors browserslist config in package.json
             // which in turn let's users customize the target behavior as per their needs.
             postcssNormalize(),
+
+            new BundleTracker({ filename: './webpack-stats.json' }),
+
+            require('babel-plugin-styled-components'),
           ],
           sourceMap: isEnvProduction && shouldUseSourceMap,
         },
